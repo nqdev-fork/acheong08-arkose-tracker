@@ -1,0 +1,100 @@
+storage:
+  type: sqlite
+  path: data.db
+endpoints:
+  - name: "ChatGPT Cloudflare Bypass"
+    url: "https://bypass.churchless.tech/conversations"
+    interval: 5m
+    conditions:
+      - "[STATUS] == 401"
+      - "[BODY].detail.message == Unauthorized - Access token is missing"
+      - "[RESPONSE_TIME] < 500"
+
+  - name: "FreeChatGPT"
+    url: "https://free.churchless.tech/v1/chat/completions" 
+    interval: 5m
+    method: POST
+    body: |
+      {"messages":[{"role":"user", "content":"Say 1"}], "model":"gpt-3.5-turbo","stream":false}
+    headers:
+      Authorization: "Bearer BetterChatGPT"
+    conditions:
+      - "[STATUS] == 200"
+      - "[BODY].object == chat.completion"
+  
+  - name: "Dendrite"
+    url: "https://matrix.duti.me/_dendrite/monitor/health"
+    interval: 10m
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: "https://bypass.churchless.tech/captcha/start"                 # Name of your endpoint, can be anything
+    group: "Arkose Labs"
+    url: "https://bypass.churchless.tech/captcha/start"
+    interval: 10m                  # Duration to wait between every status check (default: 60s)
+    conditions:
+      - "[STATUS] == 200"
+      - "[BODY].status == success"
+  - name: "https://arkose-token.linweiyuan.com"
+    group: "Arkose Labs"
+    url: "https://arkose-token.linweiyuan.com"
+    interval: 10m
+    conditions:
+      - "[STATUS] == 200"
+      - "[BODY].token == pat(*sup=1|rid=*)"
+  - name: "http://to.ken.xiu.ee"
+    group: "Arkose Labs"
+    url: "http://to.ken.xiu.ee"
+    interval: 10m
+    conditions:
+      - "[STATUS] == 200"
+      - "[BODY] == pat(*sup=1|rid=*)"
+  - name: "https://arkose-token.tms.im/"
+    group: "Arkose Labs"
+    url: "https://arkose-token.tms.im/"
+    interval: 10m
+    conditions:
+      - "[STATUS] == 200"
+      - "[BODY].token == pat(*sup=1|rid=*)"
+  - name: "http://arkosetoken.52swap.cn"
+    group: "Arkose Labs"
+    url: "http://arkosetoken.52swap.cn"
+    interval: 10m
+    conditions:
+      - "[STATUS] == 200"
+      - "[BODY].token == pat(*sup=1|rid=*)"
+  - name: "https://ai.fakeopen.com/api/arkose/token"
+    group: "Arkose Labs"
+    url: "https://ai.fakeopen.com/api/arkose/token"
+    interval: 10m
+    conditions:
+      - "[STATUS] == 200"
+  - name: "https://tttoken.azurewebsites.net/"
+    group: "Arkose Labs"
+    url: "https://tttoken.azurewebsites.net/"
+    interval: 10m
+    conditions:
+      - "[STATUS] == 200"
+      - "[BODY] == pat(*sup=1|rid=*)"
+  - name: "https://arkosetoken.tsmai.top"
+    group: "Arkose Labs"
+    url: "https://arkosetoken.tsmai.top"
+    interval: 10m
+    conditions:
+      - "[STATUS] == 200"
+      - "[BODY].token == pat(*sup=1|rid=*)"
+  - name: "https://api.tms.im/arkose-token-ap"
+    group: "Arkose Labs"
+    url: "https://api.tms.im/arkose-token-ap"
+    interval: 10m
+    conditions:
+      - "[STATUS] == 200"
+      - "[BODY].token == pat(*sup=1|rid=*)"
+  - name: "https://arkok.chenxinstepone.top/"
+    group: "Arkose Labs"
+    url: "https://arkok.chenxinstepone.top/"
+    interval: 10m
+    conditions:
+      - "[STATUS] == 200"
+      - "[BODY].token == pat(*sup=1|rid=*)"
+      - "[BODY].status == success"
